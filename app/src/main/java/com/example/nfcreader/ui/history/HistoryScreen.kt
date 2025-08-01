@@ -11,19 +11,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.nfcreader.data.db.TagEntity
 
+// Composable affichant l'historique des tags NFC lus sous forme de liste verticale
 @Composable
 fun HistoryScreen(history: List<TagEntity>) {
     LazyColumn(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = Modifier
+            .fillMaxSize()   // Prend toute la taille disponible de l'écran
+            .padding(16.dp), // Padding autour de la liste
+        verticalArrangement = Arrangement.spacedBy(8.dp) // Espacement entre les éléments
     ) {
+        // Pour chaque élément dans l'historique, on crée un item de liste
         items(history) { tag ->
-            Card(modifier = Modifier.fillMaxWidth()) {
-                Column(modifier = Modifier.padding(12.dp)) {
+            Card(modifier = Modifier.fillMaxWidth()) { // Card pour style avec ombre et coins arrondis
+                Column(modifier = Modifier.padding(12.dp)) { // Padding intérieur de la Card
+                    // Affiche l'ID du tag avec un emoji, en style titre moyen
                     Text("🆔 ${tag.tagId}", style = MaterialTheme.typography.titleMedium)
+                    // Affiche le contenu lu sur le tag
                     Text("📄 ${tag.content}")
-                    Text("⏱ ${java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(tag.scannedAt)}",
-                        style = MaterialTheme.typography.bodySmall)
+                    // Affiche la date et l'heure de la lecture, formatée en jj/MM/aaaa HH:mm
+                    Text(
+                        "⏱ ${java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(tag.scannedAt)}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
             }
         }
